@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f4eb">
+<title>MJ & Jouise Wedding</title>
+<meta name="description" content="You are cordially invited to the wedding of MJ & Jouise on Saturday, 12 December 2026.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MJ & Jouise Wedding">
+<meta property="og:description" content="You are cordially invited to our wedding • 12 December 2026">
+<meta property="og:image" content="social-preview (2).png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MJ & Jouise Wedding">
+<meta name="twitter:description" content="You are cordially invited to our wedding • 12 December 2026">
+<meta name="twitter:image" content="social-preview (2).png">
+<style>
+:root{--paper:#fffdf8;--gold:#b89443;--ink:#302c29;--rose:#eadbd4;--shadow:0 24px 65px #59482b2b}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 15% 10%,#fffaf0 0,transparent 38%),linear-gradient(135deg,#f7f0e4,#fdfaf5 48%,#eee3d6);display:flex;flex-direction:column;align-items:center}
+header{text-align:center;padding:28px 16px 10px}
+.eyebrow{font:11px/1.5 Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#9b7b38}
+h1{font-weight:400;font-size:clamp(25px,4vw,39px);margin:8px 0 4px;letter-spacing:.025em}
+.subtitle{font-size:14px;color:#7c7167;margin:0}
+.stage{width:min(94vw,900px);padding:18px 0 12px;display:flex;flex-direction:column;align-items:center}
+.book-wrap{width:min(78vw,430px);position:relative;perspective:1800px;filter:drop-shadow(0 18px 24px #7b68422a)}
+.book{width:100%;aspect-ratio:5/7;position:relative;transform-style:preserve-3d}
+.page{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform 950ms cubic-bezier(.2,.7,.15,1);background:var(--paper);border-radius:3px 9px 9px 3px;overflow:hidden;box-shadow:inset 7px 0 12px #7b65320b,2px 0 2px #6c58331a;backface-visibility:hidden}
+.page img{display:block;width:100%;height:100%;object-fit:cover}
+.page:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#4e3b1d0b,transparent 8%,transparent 95%,#8a6a2a0a)}
+.page.flipped{transform:rotateY(-180deg)}
+.page:nth-child(1){z-index:3}.page:nth-child(2){z-index:2}.page:nth-child(3){z-index:1}
+.book:before{content:"";position:absolute;left:-7px;top:4px;bottom:4px;width:9px;background:repeating-linear-gradient(90deg,#e2d7c2,#fffdf7 2px,#d4c7b0 3px);border-radius:4px 0 0 4px}
+.controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:23px 0 8px;flex-wrap:wrap}
+button{font:12px Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;border:1px solid #cbb47b;background:#fffaf1;color:#514532;padding:12px 17px;border-radius:99px;cursor:pointer;transition:background .2s,transform .2s}
+button:hover{background:#f2e6cb;transform:translateY(-1px)}button:disabled{opacity:.35;cursor:not-allowed;transform:none}
+#page-count{font:12px Arial,sans-serif;letter-spacing:.12em;color:#8a7a62;min-width:54px;text-align:center}
+.hint{font:12px Arial,sans-serif;color:#8b8073;text-align:center;margin:7px 0 0}
+.music{display:flex;align-items:center;gap:10px;margin:10px 0 24px;font:12px Arial,sans-serif;color:#796b5a}
+.music button{padding:10px 14px}
+.note{max-width:560px;text-align:center;padding:0 20px 28px;font-size:12px;line-height:1.7;color:#8b8073}
+@media(max-width:520px){header{padding-top:20px}.book-wrap{width:min(82vw,380px)}.controls{gap:7px}.controls button{padding:11px 13px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.page{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">A celebration of love</div>
+  <h1>MJ <span style="color:#b89443">&amp;</span> Jouise</h1>
+  <p class="subtitle">Our wedding invitation</p>
+</header>
+<main class="stage">
+  <div class="book-wrap" aria-label="Interactive wedding invitation flipbook">
+    <div class="book" id="book">
+      <div class="page" data-page="0"><img src="assets/page-1.jpg" alt="Invitation cover: You are cordially invited to our wedding."></div>
+      <div class="page" data-page="1"><img src="assets/page-2.jpg" alt="Wedding details for MJ and Jouise, Saturday 12 December 2026 at 1:00 PM."></div>
+      <div class="page" data-page="2"><img src="assets/page-3.jpg" alt="Wedding finer details, dress code, RSVP and note to guests."></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button id="prev" type="button" disabled>‹ Previous</button>
+    <span id="page-count">1 / 3</span>
+    <button id="next" type="button">Turn page ›</button>
+  </div>
+  <p class="hint">Tap the page or use the buttons • swipe on mobile</p>
+  <div class="music">
+    <button id="music-toggle" type="button">♫ Play music</button>
+    <span id="music-status" aria-live="polite">Romantic instrumental</span>
+  </div>
+</main>
+<audio id="bg-music" src="assets/wedding-music.mp3" loop preload="auto" autoplay></audio>
+<script>
+(() => {
+  const pages = [...document.querySelectorAll('.page')];
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const count = document.getElementById('page-count');
+  const audio = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+  const musicStatus = document.getElementById('music-status');
+  let current = 0;
+  function render() {
+    pages.forEach((page, i) => {
+      page.classList.toggle('flipped', i < current);
+      page.style.zIndex = String(pages.length - i);
+    });
+    count.textContent = `${Math.min(current + 1, pages.length)} / ${pages.length}`;
+    prev.disabled = current === 0;
+    next.disabled = current === pages.length - 1;
+    next.textContent = current === pages.length - 1 ? 'End of invitation' : 'Turn page ›';
+  }
+  function turnNext(){ if(current < pages.length - 1){current++;render();} }
+  function turnPrev(){ if(current > 0){current--;render();} }
+  next.addEventListener('click', turnNext);
+  prev.addEventListener('click', turnPrev);
+  pages.forEach((p,i)=>p.addEventListener('click',()=>{ if(i >= current) turnNext(); else turnPrev(); }));
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')turnNext();if(e.key==='ArrowLeft')turnPrev();});
+  let touchX = null;
+  document.getElementById('book').addEventListener('touchstart',e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
+  document.getElementById('book').addEventListener('touchend',e=>{
+    if(touchX===null)return; const dx=e.changedTouches[0].clientX-touchX;
+    if(Math.abs(dx)>45){dx<0?turnNext():turnPrev();} touchX=null;
+  },{passive:true});
+  function syncMusic(){
+    const playing = !audio.paused;
+    musicToggle.textContent = playing ? '♫ Pause music' : '♫ Play music';
+    musicStatus.textContent = playing ? 'Now playing' : 'Tap play if your browser blocked autoplay';
+  }
+  async function tryAutoplay(){
+    try { audio.volume = 0.55; await audio.play(); } catch(err) { /* Browser autoplay policies may require a tap. */ }
+    syncMusic();
+  }
+  musicToggle.addEventListener('click',async()=>{
+    if(audio.paused){try{await audio.play();}catch(e){}}
+    else audio.pause();
+    syncMusic();
+  });
+  audio.addEventListener('play',syncMusic);
+  audio.addEventListener('pause',syncMusic);
+  render();
+  tryAutoplay();
+})();
+</script>
+</body>
+</html>
